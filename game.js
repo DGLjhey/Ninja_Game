@@ -1,0 +1,161 @@
+// Initialize variables 
+    let attemptCount = 20;
+    let goldCount = 0;
+
+// to display text with the corresponding color
+    function displayMessage(message, color) {
+        console.log($('#message-container'));
+            $('#message-container').text(message);
+            $('#message-container').css('color', color);
+}
+
+// Function for generating random gold value
+    function generateGold(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+// count of attempts
+    function updateAttemptCount() {
+    attemptCount--;
+    $('#attempt-count').text(attemptCount);
+    }
+// count of gold
+    function updateGoldCount(value) {
+        goldCount += value ;
+        $('#gold-count').text(goldCount);
+
+// Check if gold count reaches 250 within 20 tries
+            if (goldCount >= 250 && attemptCount === 0) {
+            displayMessage('Ninja won the game!', 'green');
+            } else if (attemptCount === 0 && goldCount < 250) {
+            displayMessage('Ninja lost the game!', 'red');
+            }
+    }
+
+// adding an entry to the log
+    function addToLog(date, time, location, gold) {
+        // let logEntry = `<p>${location}<br>${date}<br>${time}<br>${gold} gold</p>`;
+        let logEntry = `<p>Date:   ${date}<br>Number of Golds:   ${gold}<br>Location:   ${location} <br>Timestamp: ${time}<br>------------------------------------</p>`;
+        $('#log-container').prepend(logEntry);
+    }
+
+// resetting the game
+    function resetGame() {
+        attemptCount = 20;
+        goldCount = 0;
+        $('#attempt-count').text(attemptCount);
+        $('#gold-count').text(goldCount);
+        $('#log-container').empty();
+        $('#message-container').empty();
+    }
+
+// funtion for every location
+// Bind functions to buttons
+    $('#house-btn').click(function() {
+        if (attemptCount > 0) {
+            let gold = Math.random() < 0.8 ? 10 : 0;
+            updateAttemptCount();
+            updateGoldCount(gold);
+            addToLog(new Date().toLocaleDateString(), new Date().toLocaleTimeString(), 'House', gold);
+            displayMessage(`Ninja earned ${gold} gold from the House.`, 'green');
+                } else {
+                    displayMessage('Ninja have no more attempts left.', 'red');
+                    if (goldCount >= 250 && attemptCount === 0) {
+                        displayMessage('Ninja won the game!', 'green');
+                    } else if (attemptCount === 0 && goldCount < 250) {
+                        displayMessage('Ninja lost the game!', 'red');
+                    }
+            }
+    });
+
+// cave function
+    $('#cave-btn').click(function() {
+        if (attemptCount > 0) {
+            let gold = 5;
+            updateAttemptCount();
+            updateGoldCount(gold);
+            addToLog(new Date().toLocaleDateString(), new Date().toLocaleTimeString(), 'Cave', gold);
+            displayMessage(`Ninja earned ${gold} gold from the Cave.`, 'green');
+                } else {
+                    displayMessage(`Ninja have no more attempts left.`, 'red');
+                    if (goldCount >= 250 && attemptCount === 0) {
+                        displayMessage('Ninja won the game!', 'green');
+                    } else if (attemptCount === 0 && goldCount < 250) {
+                        displayMessage('Ninja lost the game!', 'red');
+                    }
+        }
+    });
+
+
+// goldmine function
+    $('#goldmine-btn').click(function() {
+        if (attemptCount > 0) {
+            let gold = Math.random() < 0.8 ? generateGold(1, 25) : 0;
+            updateAttemptCount();
+            updateGoldCount(gold);
+            addToLog(new Date().toLocaleDateString(), new Date().toLocaleTimeString(), 'Goldmine', gold);
+            displayMessage(`Ninja earned ${gold} gold from the Goldmine.`, 'green');
+                } else {
+                    displayMessage(`Ninja have no more attempts left.`, 'red');
+                    if (goldCount >= 250 && attemptCount === 0) {
+                        displayMessage('Ninja won the game!', 'green');
+                    } else if (attemptCount === 0 && goldCount < 250) {
+                        displayMessage('Ninja lost the game!', 'red');
+                }
+        }
+    });
+
+// casino function
+    $('#casino-btn').click(function() {
+        if (attemptCount > 0) {
+            let gold = Math.random() < 0.5 ? generateGold(-50, -40) : generateGold(40, 50);
+            updateAttemptCount();
+            updateGoldCount(gold);
+            if (gold < 0) {
+                addToLog(new Date().toLocaleDateString(), new Date().toLocaleTimeString(), 'Casino', gold);
+                displayMessage(`Ninja lost ${Math.abs(gold)} gold at the Casino.`, 'red');
+            } else {
+                addToLog(new Date().toLocaleDateString(), new Date().toLocaleTimeString(), 'Casino', gold);
+                displayMessage(`Ninja earned ${gold} gold from the Casino.`, 'green');
+            }
+                } else {
+                    displayMessage(`Ninja have no more attempts left.`, 'red');
+                if (goldCount >= 250 && attemptCount === 0) {
+                    displayMessage('Ninja won the game!', 'green');
+                } else if (attemptCount === 0 && goldCount < 250) {
+                    displayMessage('Ninja lost the game!', 'red');
+                }
+        }
+    });
+
+// reset function
+    $('#reset-btn').click(function() {
+        resetGame();
+});
+
+//animation
+$("#cave-btn").click(function(){
+    $("#ninja").animate({marginLeft: "-500px", marginTop: "-100px"}, 500, function(){
+      // Reset the position of the image after the animation is complete
+      $(this).css({marginLeft: 0, marginTop: 0});
+    });
+  });
+  $("#goldmine-btn").click(function(){
+    $("#ninja").animate({marginRight: "500px", marginTop: "100px"}, 500, function(){
+      // Reset the position of the image after the animation is complete
+      $(this).css({marginRight: 0, marginTop: 0});
+    });
+  });  
+  $("#house-btn").click(function(){
+    $("#ninja").animate({marginLeft: "500px", marginTop: "-100px"}, 500, function(){
+      // Reset the position of the image after the animation is complete
+      $(this).css({marginLeft: 0, marginTop: 0});
+    });
+  });  
+  $("#casino-btn").click(function(){
+    $("#ninja").animate({marginLeft: "500px", marginTop: "100px"}, 500, function(){
+      // Reset the position of the image after the animation is complete
+      $(this).css({marginLeft: 0, marginTop: 0});
+    });
+  });  
+
